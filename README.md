@@ -25,7 +25,6 @@ allprojects {
 dependencies {
 
     def freshAdapterVersion = "1.0.0"
-
     //annotations which will be used to mark your classes for processing
     implementation "com.github.CraZyLegenD:FreshAdapter:annotations:$freshAdapterVersion"
     //where the magic happens
@@ -134,15 +133,10 @@ class PersonAdapter : ListAdapter<Person, PersonAdapter.ViewHolder>(object : and
     }
 
     class ViewHolder(private val binding: ItemviewPersonBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
-        private val context: Context
-            get() = binding.root.context
-
         fun bind(model: Person) {
             binding.title.text = model.name.toString()
             binding.content.text = model.surname.toString()
         }
-
-        private fun getCompatColor(colorRes: Int): Int = androidx.core.content.ContextCompat.getColor(context, colorRes)
     }
 
     interface forItemClickListener {
