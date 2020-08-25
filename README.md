@@ -24,7 +24,7 @@ allprojects {
 ```gradle
 dependencies {
 
-    def freshAdapterVersion = "1.0.0
+    def freshAdapterVersion = "1.0.0"
 
     //annotations which will be used to mark your classes for processing
     implementation "com.github.CraZyLegenD:FreshAdapter:annotations:$freshAdapterVersion"
