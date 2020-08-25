@@ -55,5 +55,6 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide"
 
     implementation project(':annotations')
+    kapt project(':processor')
 
 }

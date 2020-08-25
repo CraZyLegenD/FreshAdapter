@@ -59,9 +59,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d("CLICKED AT $position", "LONG SURNAME VIEW CLICK")
             }
         }
-
-
-
     }
 
 

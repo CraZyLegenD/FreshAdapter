@@ -18,7 +18,7 @@ import kotlin.random.Random
  * Created by crazy on 8/15/20 to long live and prosper !
  */
 
-@ViewBindingAdapter("com.crazylegend.annotatedadapter.databinding.ItemviewPersonBinding")
+@ViewBindingAdapter("com.crazylegend.freshadapter.databinding.ItemviewPersonBinding")
 data class Person(
     @BindText("title") val name: String,
 
