@@ -1,0 +1,1 @@
+Generate recyclerview with annotations
