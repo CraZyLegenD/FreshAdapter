@@ -2,10 +2,22 @@
 ### Recycler view adapter generator
 
 [![](https://jitpack.io/v/CraZyLegenD/FreshAdapter.svg)](https://jitpack.io/#CraZyLegenD/FreshAdapter)
- [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) 
+ [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/)
+ [![sad](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FCraZyLegenD%2FFreshAdapter&text=Check%20out%20this%20RecyclerView%20adapter%20generator%20library%20and%20don%27t%20write%20a%20single%20RecyclerView%20adapter%20anymore)
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
 
+## Features
+
+- [x] Basic ListAdapter generation
+- [x] Ability for itemView click or long itemView click listener support
+- [x] Item click or long item click listener support for each view
+- [x] Default diff util generation or ability to provide a custom one
+- [x] View holder generation or ability to provide a custom one
+- [x] Incremental processing
+- [x] Using the latest view binding library by Google
+- [x] Ability to bind text, image (using Glide), color, visibility and add customizations
+- [ ] Suggest something?
 
 ## Usage
 1. Add JitPack to your project build.gradle
@@ -23,7 +35,7 @@ allprojects {
 
 ```gradle
 dependencies {
-    def freshAdapterVersion = "1.0.3"
+    def freshAdapterVersion = "1.0.4" //or check jitpack for latest version
     //annotations which will be used to mark your classes for processing
     implementation "com.github.CraZyLegenD.FreshAdapter:annotations:$freshAdapterVersion"
     //where the magic happens
