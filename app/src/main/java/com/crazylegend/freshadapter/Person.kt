@@ -10,6 +10,7 @@ import com.crazylegend.annotations.image.ImageBindingType
 import com.crazylegend.annotations.text.BindText
 import com.crazylegend.annotations.visibility.BindVisibility
 import com.crazylegend.annotations.visibility.VisibilityBindingType
+import com.crazylegend.freshadapter.databinding.ItemviewPersonBinding
 import java.text.MessageFormat
 import kotlin.random.Random
 
@@ -18,7 +19,7 @@ import kotlin.random.Random
  * Created by crazy on 8/15/20 to long live and prosper !
  */
 
-@ViewBindingAdapter("com.crazylegend.freshadapter.databinding.ItemviewPersonBinding")
+@ViewBindingAdapter(ItemviewPersonBinding::class)
 data class Person(
     @BindText("title") val name: String,
 

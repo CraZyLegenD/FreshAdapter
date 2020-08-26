@@ -26,6 +26,8 @@ import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
+import javax.lang.model.type.MirroredTypeException
+import javax.lang.model.type.TypeMirror
 import javax.tools.Diagnostic
 
 
@@ -55,6 +57,14 @@ class AdapterProcessor : AbstractProcessor() {
         return true
     }
 
+    private fun getViewBindingAdapterMirror(annotation: ViewBindingAdapter): TypeMirror? {
+        try {
+            annotation.viewBinding
+        } catch (mte: MirroredTypeException) {
+            return mte.typeMirror
+        }
+        return null
+    }
 
     private fun createAdapterData(element: Element?): AdapterModel? {
         element ?: return null
@@ -62,11 +72,13 @@ class AdapterProcessor : AbstractProcessor() {
         val packageName = elementUtils.getPackageOf(element).toString()
         val pojoModelName = element.simpleName.toString()
         val annotation = element.getAnnotation(ViewBindingAdapter::class.java)
-        val viewBindingPackage = annotation.viewBindingPackage
+        val viewBindingTypeMirror = getViewBindingAdapterMirror(annotation)
+        val viewBindingPackageElement = typeUtils.asElement(viewBindingTypeMirror)
+        val viewBindingPackage = "${elementUtils.getPackageOf(viewBindingPackageElement)}.${viewBindingPackageElement.simpleName}"
         val viewBindingPackageName = viewBindingPackage.substringBeforeLast(".")
         val viewBindingType = viewBindingPackage.substringAfterLast(".")
 
-        checkIfViewBindingCanBeProcessed("$viewBindingPackageName.$viewBindingType")
+        checkIfViewBindingCanBeProcessed(viewBindingPackage)
 
         val diffUtilPackageName = constructDiffUtilPackageName(element, packageName, pojoModelName)
 
@@ -172,17 +184,17 @@ class AdapterProcessor : AbstractProcessor() {
                         if (it.simpleName.toString().toLowerCase() == "bind") {
                             val errorMessage = "You must implement bind function from ViewHolderContract with $pojoModelName as a parameter"
                             val bindParam = it.parameters.firstOrNull()
-                            if (bindParam == null){
+                            if (bindParam == null) {
                                 error(errorMessage)
                                 return
                             }
                             val bindPojoType = tryOrNull { elementUtils.getTypeElement("${packageName}.${pojoModelName}").asType() }
-                            if (bindPojoType == null){
+                            if (bindPojoType == null) {
                                 error("Checkout the $pojoModelName class for errors")
                                 return
                             }
 
-                            if (!typeUtils.isSameType(bindParam.asType(), bindPojoType)){
+                            if (!typeUtils.isSameType(bindParam.asType(), bindPojoType)) {
                                 error(errorMessage)
                                 return
                             }
