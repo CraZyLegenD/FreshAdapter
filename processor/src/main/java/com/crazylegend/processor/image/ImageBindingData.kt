@@ -1,7 +1,7 @@
 package com.crazylegend.processor.image
 
 import com.crazylegend.annotations.clickListeners.ClickListenerType
-import com.crazylegend.annotations.image.CacheStrategyTpe
+import com.crazylegend.annotations.image.CacheStrategyType
 import com.crazylegend.annotations.image.ImageTransformationType
 import com.crazylegend.processor.codegen.BindingData
 
@@ -15,6 +15,6 @@ internal data class ImageBindingData(
         override val clickListenerType: ClickListenerType,
         val placeHolderRes: Int,
         val errorRes: Int,
-        val cachingStrategy: CacheStrategyTpe,
+        val cachingStrategy: CacheStrategyType,
         val transformationType: ImageTransformationType
 ) : BindingData
