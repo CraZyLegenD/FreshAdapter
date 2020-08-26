@@ -58,8 +58,7 @@ for more advanced and customizing usage, visit the [Wiki](https://github.com/Cra
 Annotate your pojo class model with @ViewBindingAdapter
 ```kotlin
 @ViewBindingAdapter(
-    viewBindingPackage = "com.mypackage.ItemviewPersonBinding", /* set the binding
- package name that's gonna be a constructor for the view holder*/
+    viewBinding = ItemviewPersonBinding::class, //sets the binding that's gonna be a constructor for the view holder
     attachItemViewClickListener = true, //whether to generate click listener on itemView click
     attachItemViewLongClickListener = true //same as itemViewClick listener but long click
 )
@@ -68,7 +67,7 @@ data class Person
 
 ```kotlin
 @ViewBindingAdapter(
-    viewBindingPackage = "com.crazylegend.freshadapter.databinding.ItemviewPersonBinding",
+    viewBinding = ItemviewPersonBinding::class,
     attachItemViewClickListener = true,
     attachItemViewLongClickListener = true
 )
