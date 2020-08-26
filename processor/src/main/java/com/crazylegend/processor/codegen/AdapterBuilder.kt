@@ -298,11 +298,11 @@ internal class AdapterBuilder(
             visibility_GONE -> {
                 visibility_VISIBLE
             }
-            visibility_INVISIBLE->{
+            visibility_INVISIBLE -> {
                 visibility_VISIBLE
             }
 
-            visibility_VISIBLE->{
+            visibility_VISIBLE -> {
                 if (visibleToGone) visibility_GONE else visibility_VISIBLE
             }
             else -> {

@@ -200,7 +200,8 @@ class AdapterProcessor : AbstractProcessor() {
                             }
                         }
                     }
-                    else -> {}
+                    else -> {
+                    }
                 }
 
             }
@@ -262,17 +263,17 @@ class AdapterProcessor : AbstractProcessor() {
             val declaredType = declaredDiffUtilCallback.typeArguments.firstOrNull()
             val pojoType = tryOrNull { elementUtils.getTypeElement("${packageName}.${pojoModelName}") }?.asType()
 
-            if (declaredType == null){
+            if (declaredType == null) {
                 error(errorMessage)
                 return
             }
 
-            if (pojoType == null){
+            if (pojoType == null) {
                 error("Checkout your $pojoModelName class for errors")
                 return
             }
 
-            if (!typeUtils.isSameType(declaredType, pojoType)){
+            if (!typeUtils.isSameType(declaredType, pojoType)) {
                 error(errorMessage)
                 return
             }

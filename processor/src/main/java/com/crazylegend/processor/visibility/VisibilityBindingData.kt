@@ -13,7 +13,7 @@ internal data class VisibilityBindingData(
         override val viewBindingName: String,
         val bindingType: VisibilityBindingType,
         val checkPreviousVisibilityToSetNew: Boolean,
-        val elseClauseSetToTheOppositeVisibility:Boolean,
-        val visibleToGone:Boolean,
+        val elseClauseSetToTheOppositeVisibility: Boolean,
+        val visibleToGone: Boolean,
         override val clickListenerType: ClickListenerType
 ) : BindingData

@@ -33,12 +33,12 @@ internal data class AdapterModel(
     )
 
     fun generateCustomViewHolder(): CustomViewHolder? {
-        return if (customViewHolderClass == null){
+        return if (customViewHolderClass == null) {
             null
         } else {
             val viewHolderName = customViewHolderClass.substringAfterLast(".")
             val viewHolderClassName = ClassName(packageName, viewHolderName)
-            val viewHolderQualifiedClassName =  ClassName(packageName, "$pojoModelName.$viewHolderName")
+            val viewHolderQualifiedClassName = ClassName(packageName, "$pojoModelName.$viewHolderName")
             CustomViewHolder(customViewHolderClass, viewHolderClassName, viewHolderQualifiedClassName)
         }
     }
