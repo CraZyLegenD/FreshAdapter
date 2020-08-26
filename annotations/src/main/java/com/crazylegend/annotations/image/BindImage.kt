@@ -9,6 +9,6 @@ import com.crazylegend.annotations.clickListeners.ClickListenerType
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.PROPERTY)
 annotation class BindImage(val viewName: String, val placeHolderRes: Int = -1, val errorRes: Int = -1,
-                           val cachingStrategy: CacheStrategyType = CacheStrategyType.NONE,
+                           val cachingStrategyImage: ImageCacheStrategyType = ImageCacheStrategyType.NONE,
                            val transformationType: ImageTransformationType = ImageTransformationType.NONE,
                            val clickListenerType: ClickListenerType = ClickListenerType.NONE)

@@ -304,7 +304,7 @@ internal class AdapterBuilder(
             builder.apply {
                 addStatement("com.bumptech.glide.Glide.with(context)")
                 addStatement(".load(model.${it.fieldName})")
-                addStatement(".diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.${it.cachingStrategy.name})")
+                addStatement(".diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.${it.cachingStrategyImage.name})")
                 appendTransformationType(builder, it.transformationType)
                 if (it.errorRes != -1) {
                     addStatement(".error(${it.errorRes})")
