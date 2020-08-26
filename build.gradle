@@ -15,10 +15,17 @@ buildscript {
 }
 
 allprojects {
+
+    group = "io.github.crazylegend"
+
     repositories {
         google()
         jcenter()
     }
+}
+
+subprojects {
+    apply plugin: 'maven'
 }
 
 task clean(type: Delete) {
