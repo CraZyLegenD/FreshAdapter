@@ -6,7 +6,6 @@ import com.crazylegend.annotations.clickListeners.ClickListenerType
 import com.crazylegend.annotations.color.BindColor
 import com.crazylegend.annotations.color.ColorBindingType
 import com.crazylegend.annotations.image.BindImage
-import com.crazylegend.annotations.image.ImageBindingType
 import com.crazylegend.annotations.text.BindText
 import com.crazylegend.annotations.visibility.BindVisibility
 import com.crazylegend.annotations.visibility.VisibilityBindingType
@@ -21,9 +20,9 @@ import kotlin.random.Random
 
 @ViewBindingAdapter(ItemviewPersonBinding::class)
 data class Person(
-    @BindText("title") val name: String,
+        @BindText("title") val name: String,
 
-    @BindText("content", clickListenerType = ClickListenerType.LONG_CLICK)
+        @BindText("content", clickListenerType = ClickListenerType.LONG_CLICK)
         val surname: String
 
 ) {
@@ -32,7 +31,7 @@ data class Person(
     @BindVisibility("content", VisibilityBindingType.VISIBLE, true, true, true)
     val visibility = surname.substringAfter("%").length == 1
 
-    @BindImage("image", ImageBindingType.REMOTE)
+    @BindImage("image")
     val image: String
         get() = createRandomImageUrl()
 
