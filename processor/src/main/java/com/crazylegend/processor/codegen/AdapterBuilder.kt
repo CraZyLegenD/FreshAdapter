@@ -2,7 +2,7 @@ package com.crazylegend.processor.codegen
 
 import com.crazylegend.annotations.clickListeners.ClickListenerType
 import com.crazylegend.annotations.color.ColorBindingType
-import com.crazylegend.annotations.image.ImageBindingType
+import com.crazylegend.annotations.image.ImageTransformationType
 import com.crazylegend.annotations.text.TextBindingType
 import com.crazylegend.annotations.visibility.VisibilityBindingType
 import com.crazylegend.processor.color.ColorBindingData
@@ -247,28 +247,15 @@ internal class AdapterBuilder(
         }
     }
 
-    private val visibility_VISIBLE = "VISIBLE"
-    private val visibility_GONE = "GONE"
-    private val visibility_INVISIBLE = "INVISIBLE"
     private fun addVisibilityBinds(builder: FunSpec.Builder, visibilityBindingData: List<VisibilityBindingData>) {
         visibilityBindingData.asSequence().forEach {
-            when (it.bindingType) {
-                VisibilityBindingType.VISIBLE -> {
-                    addVisibilityCheck(builder, it.checkPreviousVisibilityToSetNew, visibility_VISIBLE, it.viewBindingName, it.fieldName, it.elseClauseSetToTheOppositeVisibility, it.visibleToGone)
-                }
-                VisibilityBindingType.GONE -> {
-                    addVisibilityCheck(builder, it.checkPreviousVisibilityToSetNew, visibility_GONE, it.viewBindingName, it.fieldName, it.elseClauseSetToTheOppositeVisibility, it.visibleToGone)
-                }
-                VisibilityBindingType.INVISIBLE -> {
-                    addVisibilityCheck(builder, it.checkPreviousVisibilityToSetNew, visibility_INVISIBLE, it.viewBindingName, it.fieldName, it.elseClauseSetToTheOppositeVisibility, it.visibleToGone)
-                }
-            }
+            addVisibilityCheck(builder, it.checkPreviousVisibilityToSetNew, it.bindingType, it.viewBindingName, it.fieldName, it.elseClauseSetToTheOppositeVisibility, it.visibleToGone)
         }
     }
 
-    private fun addVisibilityCheck(builder: FunSpec.Builder, checkPreviousVisibilityToSetNew: Boolean, visibility: String, viewBindingName: String, fieldName: String, elseClauseSetToTheOppositeVisibility: Boolean, visibleToGone: Boolean) {
+    private fun addVisibilityCheck(builder: FunSpec.Builder, checkPreviousVisibilityToSetNew: Boolean, visibility: VisibilityBindingType, viewBindingName: String, fieldName: String, elseClauseSetToTheOppositeVisibility: Boolean, visibleToGone: Boolean) {
         if (checkPreviousVisibilityToSetNew) {
-            builder.addStatement("if(binding.${viewBindingName}.visibility != android.view.View.${visibility})")
+            builder.addStatement("if(binding.${viewBindingName}.visibility != android.view.View.${visibility.name})")
             builder.addStatement("{")
             builder.addStatement("if(model.$fieldName)")
             builder.addStatement("{")
@@ -293,36 +280,58 @@ internal class AdapterBuilder(
         }
     }
 
-    private fun getOppositeVisibility(visibility: String, visibleToGone: Boolean): String {
+    private fun getOppositeVisibility(visibility: VisibilityBindingType, visibleToGone: Boolean): String {
         return when (visibility) {
-            visibility_GONE -> {
-                visibility_VISIBLE
+            VisibilityBindingType.GONE -> {
+                VisibilityBindingType.VISIBLE
             }
-            visibility_INVISIBLE -> {
-                visibility_VISIBLE
+            VisibilityBindingType.INVISIBLE -> {
+                VisibilityBindingType.VISIBLE
             }
 
-            visibility_VISIBLE -> {
-                if (visibleToGone) visibility_GONE else visibility_VISIBLE
+            VisibilityBindingType.VISIBLE -> {
+                if (visibleToGone) VisibilityBindingType.GONE else VisibilityBindingType.VISIBLE
             }
             else -> {
-                visibility_VISIBLE
+                VisibilityBindingType.VISIBLE
+            }
+        }.name
+    }
+
+    private fun addImageBinds(builder: FunSpec.Builder, imageBindingData: List<ImageBindingData>) {
+
+        imageBindingData.asSequence().forEach {
+            builder.apply {
+                addStatement("com.bumptech.glide.Glide.with(context)")
+                addStatement(".load(model.${it.fieldName})")
+                addStatement(".diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.${it.cachingStrategy.name})")
+                appendTransformationType(builder, it.transformationType)
+                if (it.errorRes != -1) {
+                    addStatement(".error(${it.errorRes})")
+                }
+                if (it.placeHolderRes != -1) {
+                    addStatement(".placeholder(${it.placeHolderRes})")
+                }
+                addStatement(".into(binding.${it.viewBindingName})")
             }
         }
     }
 
-    private fun addImageBinds(builder: FunSpec.Builder, imageBindingData: List<ImageBindingData>) {
-        imageBindingData.asSequence().forEach {
-            when (it.bindingType) {
-                ImageBindingType.DRAWABLE_RES -> {
-                    builder.addStatement("binding.${it.viewBindingName}.setImageResource(model.${it.fieldName})")
-                }
-                ImageBindingType.REMOTE -> {
-                    builder.addStatement("com.bumptech.glide.Glide.with(context)\n" +
-                            "                .load(model.${it.fieldName})\n" +
-                            "                .into(binding.${it.viewBindingName})")
-                }
+    private fun appendTransformationType(builder: FunSpec.Builder, transformationType: ImageTransformationType){
+        when(transformationType){
+            ImageTransformationType.CENTER_CROP -> {
+                builder.addStatement(".centerCrop()")
             }
+            ImageTransformationType.CENTER_INSIDE -> {
+                builder.addStatement(".centerInside()")
+            }
+            ImageTransformationType.CIRCLE_CROP -> {
+                builder.addStatement(".circleCrop()")
+            }
+            ImageTransformationType.FIT_CENTER -> {
+                builder.addStatement(".fitCenter()")
+            }
+            else->{}
         }
     }
 

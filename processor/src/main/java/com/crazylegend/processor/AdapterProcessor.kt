@@ -94,7 +94,7 @@ class AdapterProcessor : AbstractProcessor() {
         }
 
         val imageBindingData = element.bindEnclosedElements<BindImage, ImageBindingData> { fieldName, callback ->
-            ImageBindingData(fieldName, callback.viewName, callback.imageBindingType, callback.clickListenerType)
+            ImageBindingData(fieldName, callback.viewName, callback.clickListenerType, callback.placeHolderRes, callback.errorRes, callback.cachingStrategy, callback.transformationType)
         }
 
         val visibilityBindingData = element.bindEnclosedElements<BindVisibility, VisibilityBindingData> { fieldName, callback ->
