@@ -6,10 +6,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
-repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
