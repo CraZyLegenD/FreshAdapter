@@ -35,7 +35,7 @@ allprojects {
 
 ```gradle
 dependencies {
-    def freshAdapterVersion = "1.0.5" //or check jitpack for latest version
+    def freshAdapterVersion = "1.0.6" //or check jitpack for latest version
     //annotations which will be used to mark your classes for processing
     implementation "com.github.CraZyLegenD.FreshAdapter:annotations:$freshAdapterVersion"
     //where the magic happens
