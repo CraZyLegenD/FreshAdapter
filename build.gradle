@@ -1,7 +1,7 @@
 buildscript {
-    /*  staying on 1.3.72 till this issue is resolved
+    /*  Camel case usage till this is fixed
      https://youtrack.jetbrains.com/issue/KT-41189*/
-    ext.kotlin_version = "1.3.72"
+    ext.kotlin_version = "1.4.0"
     ext.glide = "4.11.0"
 
     repositories {

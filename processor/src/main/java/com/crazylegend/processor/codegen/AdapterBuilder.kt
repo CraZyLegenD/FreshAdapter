@@ -353,7 +353,7 @@ internal class AdapterBuilder(
         val clickListenersCondition = !adapterData.clickListenersConditionAreAllNone
 
         if (defaultClickListenersCondition || clickListenersCondition) {
-            addType(TypeSpec.interfaceBuilder("forItemClickListener")
+            addType(TypeSpec.funInterfaceBuilder("forItemClickListener")
                     .addFunction(
                             FunSpec.builder("forItem")
                                     .addParameter("position", INT)

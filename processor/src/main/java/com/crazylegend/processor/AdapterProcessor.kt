@@ -9,6 +9,7 @@ import com.crazylegend.annotations.viewHolder.ViewHolderBinding
 import com.crazylegend.annotations.visibility.BindVisibility
 import com.crazylegend.processor.codegen.AdapterBuilder
 import com.crazylegend.processor.codegen.AdapterModel
+import com.crazylegend.processor.codegen.ViewHolderNamesBuilder
 import com.crazylegend.processor.color.ColorBindingData
 import com.crazylegend.processor.image.ImageBindingData
 import com.crazylegend.processor.text.TextBindingData
@@ -36,6 +37,7 @@ class AdapterProcessor : AbstractProcessor() {
 
     private val elementUtils get() = processingEnv.elementUtils
     private val typeUtils get() = processingEnv.typeUtils
+    private val generatedDirectory get() = processingEnv.options[KAPT_KOTLIN_GENERATED_NAME]
 
     companion object {
         const val KAPT_KOTLIN_GENERATED_NAME = "kapt.kotlin.generated"
@@ -45,14 +47,14 @@ class AdapterProcessor : AbstractProcessor() {
 
     override fun process(annotations: MutableSet<out TypeElement>, roundEnv: RoundEnvironment): Boolean {
 
-        val generatedDirectory = processingEnv.options[KAPT_KOTLIN_GENERATED_NAME] ?: return false
+        val writeableDirectory = generatedDirectory ?: return false
         roundEnv.getElementsAnnotatedWith(ViewBindingAdapter::class.java).forEach {
             val adapterData = createAdapterData(it) ?: return false
             val adapterFileName = "${adapterData.pojoModelName}Adapter"
             FileSpec.builder(adapterData.packageName, adapterFileName)
                     .addType(AdapterBuilder(adapterFileName, adapterData).build())
                     .build()
-                    .writeTo(File(generatedDirectory))
+                    .writeTo(File(writeableDirectory))
         }
         return true
     }
@@ -79,6 +81,19 @@ class AdapterProcessor : AbstractProcessor() {
         val viewBindingType = viewBindingPackage.substringAfterLast(".")
 
         checkIfViewBindingCanBeProcessed(viewBindingPackage)
+
+
+        if (annotation.generateViewBindingStaticNames){
+            val writeableDirectory = generatedDirectory ?: return null
+            val viewBindingFields = viewBindingPackageElement.enclosedElements.filter { it.kind == ElementKind.FIELD }
+            val viewBindingFileName = "${viewBindingPackageElement.simpleName}Names"
+            FileSpec.builder(packageName, viewBindingFileName)
+                    .addType(ViewHolderNamesBuilder(
+                            viewBindingFields.map { it.simpleName.toString() }, viewBindingFileName).build())
+                    .build()
+                    .writeTo(File(writeableDirectory))
+        }
+
 
         val diffUtilPackageName = constructDiffUtilPackageName(element, packageName, pojoModelName)
 
@@ -107,6 +122,7 @@ class AdapterProcessor : AbstractProcessor() {
                 visibilityBindingData,
                 colorBindingData, annotation.attachItemViewClickListener, annotation.attachItemViewLongClickListener)
     }
+
 
 
     private fun constructCustomViewHolderPackageName(element: Element, packageName: String, pojoModelName: String, viewBindingPackage: String): String? {

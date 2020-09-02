@@ -49,16 +49,8 @@ class MainActivity : AppCompatActivity() {
         personAdapter.submitList(personList)
 
 
-        personAdapter.onItemViewClickListener = object : PersonAdapter.forItemClickListener {
-            override fun forItem(position: Int, item: Person, view: View) {
-                Log.d("CLICKED AT $position", "LONG ITEM VIEW CLICK")
-            }
-        }
-        personAdapter.surnameLongClickListener = object : PersonAdapter.forItemClickListener {
-            override fun forItem(position: Int, item: Person, view: View) {
-                Log.d("CLICKED AT $position", "LONG SURNAME VIEW CLICK")
-            }
-        }
+        personAdapter.onItemViewClickListener = PersonAdapter.forItemClickListener { position, item, view -> Log.d("CLICKED AT $position", "LONG ITEM VIEW CLICK") }
+        personAdapter.surnameLongClickListener = PersonAdapter.forItemClickListener { position, item, view -> Log.d("CLICKED AT $position", "LONG SURNAME VIEW CLICK") }
     }
 
 

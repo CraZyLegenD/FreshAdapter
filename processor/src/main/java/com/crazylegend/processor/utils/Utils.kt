@@ -8,7 +8,7 @@ import javax.lang.model.element.Element
  */
 
 
-val String.getFieldName get() = substring(0, indexOf('$'))
+val String.getFieldName get() = substring(0, indexOf('$')).replace("get","").decapitalize()
 
 fun <E> List<E>.stringifyList(): String {
     return toString().replace("[", "").replace("]", "").replace(",", "")

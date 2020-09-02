@@ -18,24 +18,24 @@ import kotlin.random.Random
  * Created by crazy on 8/15/20 to long live and prosper !
  */
 
-@ViewBindingAdapter(ItemviewPersonBinding::class)
+@ViewBindingAdapter(ItemviewPersonBinding::class, generateViewBindingStaticNames = true)
 data class Person(
-        @BindText("title") val name: String,
+        @BindText(ItemviewPersonBindingNames.title) val name: String,
 
-        @BindText("content", clickListenerType = ClickListenerType.LONG_CLICK)
+        @BindText(ItemviewPersonBindingNames.content, clickListenerType = ClickListenerType.LONG_CLICK)
         val surname: String
 
 ) {
 
     //if this is true set visibility to invisible, hides all the content with percentage that's of one number
-    @BindVisibility("content", VisibilityBindingType.VISIBLE, true, true, true)
+    @BindVisibility(ItemviewPersonBindingNames.content, VisibilityBindingType.VISIBLE, true, true, true)
     val visibility = surname.substringAfter("%").length == 1
 
-    @BindImage("image")
+    @BindImage(ItemviewPersonBindingNames.image)
     val image: String
         get() = createRandomImageUrl()
 
-    @BindColor("card", ColorBindingType.CARD_VIEW_BACKGROUND)
+    @BindColor(ItemviewPersonBindingNames.card, ColorBindingType.CARD_VIEW_BACKGROUND)
     val imageColor
         get() = android.R.color.darker_gray
 
