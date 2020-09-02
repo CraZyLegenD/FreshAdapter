@@ -2,7 +2,7 @@
 ### Recycler view adapter generator
 
 [![](https://jitpack.io/v/CraZyLegenD/FreshAdapter.svg)](https://jitpack.io/#CraZyLegenD/FreshAdapter)
- [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/)
+ [![Kotlin](https://img.shields.io/badge/Kotlin-1.4.0-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/)
  [![sad](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FCraZyLegenD%2FFreshAdapter&text=Check%20out%20this%20RecyclerView%20adapter%20generator%20library%20and%20don%27t%20write%20a%20single%20RecyclerView%20adapter%20anymore)
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
@@ -35,7 +35,7 @@ allprojects {
 
 ```gradle
 dependencies {
-    def freshAdapterVersion = "1.0.4" //or check jitpack for latest version
+    def freshAdapterVersion = "1.0.5" //or check jitpack for latest version
     //annotations which will be used to mark your classes for processing
     implementation "com.github.CraZyLegenD.FreshAdapter:annotations:$freshAdapterVersion"
     //where the magic happens
@@ -71,7 +71,8 @@ Annotate your pojo class model with @ViewBindingAdapter
 @ViewBindingAdapter(
     viewBinding = ItemviewPersonBinding::class, //sets the binding that's gonna be a constructor for the view holder
     attachItemViewClickListener = true, //whether to generate click listener on itemView click
-    attachItemViewLongClickListener = true //same as itemViewClick listener but long click
+    attachItemViewLongClickListener = true //same as itemViewClick listener but long click,
+    generateViewBindingStaticNames = true //creates static object for your view binding so that you shouldn't paste the names around, you need to build the project so that this can be generated, you can use viewName = "" at the beginning after this is generated replace with the names you'll use to bind
 )
 data class Person
 ```
@@ -85,11 +86,11 @@ data class Person
 data class Person(
 
     /*sets the variable as a text to a TextView binding.title.text = name*/
-    @BindText(viewName = "title") 
+    @BindText(viewName = ItemviewPersonBindingNames.title) 
     val name: String,
 
     /*Same as above but it generates long click listener for binding.content*/
-    @BindText(viewName = "content", clickListenerType = ClickListenerType.LONG_CLICK)
+    @BindText(viewName = ItemviewPersonBindingNames.content, clickListenerType = ClickListenerType.LONG_CLICK)
     val surname: String
 )
 ```
@@ -149,7 +150,7 @@ class PersonAdapter : ListAdapter<Person, PersonAdapter.ViewHolder>(object : and
         }
     }
 
-    interface forItemClickListener {
+    fun interface forItemClickListener {
         fun forItem(position: Int, item: Person, view: View)
     }
 }
@@ -167,18 +168,10 @@ private val personAdapter by lazy {
       
         binding.recycler.adapter = personAdapter
         personAdapter.submitList(personList)
-
-
-        personAdapter.onItemViewClickListener = object : PersonAdapter.forItemClickListener {
-            override fun forItem(position: Int, item: Person, view: View) {
-                Log.d("CLICKED AT $position", "LONG ITEM VIEW CLICK")
-            }
-        }
-        personAdapter.surnameLongClickListener = object : PersonAdapter.forItemClickListener {
-            override fun forItem(position: Int, item: Person, view: View) {
-                Log.d("CLICKED AT $position", "LONG SURNAME CLICK")
-            }
-        }
+        
+        personAdapter.onItemViewClickListener = PersonAdapter.forItemClickListener { position, item, view -> Log.d("CLICKED AT $position", "LONG ITEM VIEW CLICK ${item.name} at view ${view.id}") }
+        
+        personAdapter.surnameLongClickListener = PersonAdapter.forItemClickListener { position, item, view -> Log.d("CLICKED AT $position", "LONG SURNAME VIEW CLICK ${item.surname} at view ${view.id}") }
     }
 ```
 
