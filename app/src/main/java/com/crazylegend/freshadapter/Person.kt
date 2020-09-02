@@ -7,6 +7,7 @@ import com.crazylegend.annotations.color.BindColor
 import com.crazylegend.annotations.color.ColorBindingType
 import com.crazylegend.annotations.image.BindImage
 import com.crazylegend.annotations.text.BindText
+import com.crazylegend.annotations.text.TextBindingType
 import com.crazylegend.annotations.visibility.BindVisibility
 import com.crazylegend.annotations.visibility.VisibilityBindingType
 import com.crazylegend.freshadapter.databinding.ItemviewPersonBinding
@@ -20,7 +21,7 @@ import kotlin.random.Random
 
 @ViewBindingAdapter(ItemviewPersonBinding::class, generateViewBindingStaticNames = true)
 data class Person(
-        @BindText(ItemviewPersonBindingNames.title) val name: String,
+        @BindText(ItemviewPersonBindingNames.title, textBindingType = TextBindingType.PRECOMPUTED_STRING) val name: String,
 
         @BindText(ItemviewPersonBindingNames.content, clickListenerType = ClickListenerType.LONG_CLICK)
         val surname: String

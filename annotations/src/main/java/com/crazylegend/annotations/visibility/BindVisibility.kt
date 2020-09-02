@@ -8,4 +8,4 @@ import com.crazylegend.annotations.clickListeners.ClickListenerType
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.PROPERTY)
-annotation class BindVisibility(val viewName: String, val visibilityType: VisibilityBindingType, val checkPreviousVisibilityToSetNew: Boolean = false, val elseClauseSetToTheOppositeVisibility: Boolean = false, val visibleToGone:Boolean = false, val clickListenerType: ClickListenerType = ClickListenerType.NONE)
+annotation class BindVisibility(val viewName: String = "", val visibilityType: VisibilityBindingType, val checkPreviousVisibilityToSetNew: Boolean = false, val elseClauseSetToTheOppositeVisibility: Boolean = false, val visibleToGone:Boolean = false, val clickListenerType: ClickListenerType = ClickListenerType.NONE)

@@ -8,4 +8,4 @@ import com.crazylegend.annotations.clickListeners.ClickListenerType
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.PROPERTY)
-annotation class BindColor(val viewName: String, val type: ColorBindingType, val clickListenerType: ClickListenerType = ClickListenerType.NONE)
+annotation class BindColor(val viewName: String = "", val type: ColorBindingType, val clickListenerType: ClickListenerType = ClickListenerType.NONE)

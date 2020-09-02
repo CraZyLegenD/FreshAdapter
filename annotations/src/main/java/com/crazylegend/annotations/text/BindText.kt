@@ -8,4 +8,4 @@ import com.crazylegend.annotations.clickListeners.ClickListenerType
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.PROPERTY)
-annotation class BindText(val viewName: String, val textBindingType: TextBindingType = TextBindingType.STRING, val clickListenerType: ClickListenerType = ClickListenerType.NONE)
+annotation class BindText(val viewName: String = "", val textBindingType: TextBindingType = TextBindingType.STRING, val clickListenerType: ClickListenerType = ClickListenerType.NONE)

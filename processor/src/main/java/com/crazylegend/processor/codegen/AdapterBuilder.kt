@@ -190,6 +190,7 @@ internal class AdapterBuilder(
                             .addSuperclassConstructorParameter("binding.root")
                             .addBindFunction()
                             .addGetColorFunction()
+                            .addBindPrecomputedText()
                             .build()
             )
         }
@@ -214,6 +215,19 @@ internal class AdapterBuilder(
                     .returns(INT)
                     .apply {
                         addStatement("return androidx.core.content.ContextCompat.getColor(context, colorRes)")
+                    }
+                    .build()
+    )
+
+    private fun TypeSpec.Builder.addBindPrecomputedText() = addFunction(
+            FunSpec.builder("setPrecomputedText")
+                    .addParameter(ParameterSpec.builder("text", String::class.asTypeName().copy(nullable = true)).build())
+                    .addModifiers(KModifier.PRIVATE)
+                    .receiver(ClassName("androidx.appcompat.widget", "AppCompatTextView"))
+                    .apply {
+                        addStatement("text?.let {")
+                        addStatement("setTextFuture(androidx.core.text.PrecomputedTextCompat.getTextFuture(it, this.textMetricsParamsCompat, null))")
+                        addStatement("}")
                     }
                     .build()
     )
@@ -317,8 +331,8 @@ internal class AdapterBuilder(
         }
     }
 
-    private fun appendTransformationType(builder: FunSpec.Builder, transformationType: ImageTransformationType){
-        when(transformationType){
+    private fun appendTransformationType(builder: FunSpec.Builder, transformationType: ImageTransformationType) {
+        when (transformationType) {
             ImageTransformationType.CENTER_CROP -> {
                 builder.addStatement(".centerCrop()")
             }
@@ -331,7 +345,8 @@ internal class AdapterBuilder(
             ImageTransformationType.FIT_CENTER -> {
                 builder.addStatement(".fitCenter()")
             }
-            else->{}
+            else -> {
+            }
         }
     }
 
@@ -343,6 +358,12 @@ internal class AdapterBuilder(
                 }
                 TextBindingType.STRING_RES -> {
                     builder.addStatement("binding.${it.viewBindingName}.text = context.getString(model.${it.fieldName})")
+                }
+                TextBindingType.PRECOMPUTED_STRING -> {
+                    builder.addStatement("binding.${it.viewBindingName}.setPrecomputedText(model.${it.fieldName}.toString())")
+                }
+                TextBindingType.PRECOMPUTED_STRING_RES -> {
+                    builder.addStatement("binding.${it.viewBindingName}.setPrecomputedText(context.getString(model.${it.fieldName}))")
                 }
             }
         }
