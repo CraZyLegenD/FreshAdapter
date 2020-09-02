@@ -72,7 +72,7 @@ Annotate your pojo class model with @ViewBindingAdapter
     viewBinding = ItemviewPersonBinding::class, //sets the binding that's gonna be a constructor for the view holder
     attachItemViewClickListener = true, //whether to generate click listener on itemView click
     attachItemViewLongClickListener = true //same as itemViewClick listener but long click,
-    generateViewBindingStaticNames = true ///creates static object for your view binding so that you shouldn't paste the names around
+    generateViewBindingStaticNames = true //creates static object for your view binding so that you shouldn't paste the names around, you need to build the project so that this can be generated, you can use viewName = "" at the beginning after this is generated replace with the names you'll use to bind
 )
 data class Person
 ```
