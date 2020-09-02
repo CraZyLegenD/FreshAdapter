@@ -2,7 +2,7 @@
 ### Recycler view adapter generator
 
 [![](https://jitpack.io/v/CraZyLegenD/FreshAdapter.svg)](https://jitpack.io/#CraZyLegenD/FreshAdapter)
- [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/)
+ [![Kotlin](https://img.shields.io/badge/Kotlin-1.4.0-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/)
  [![sad](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2FCraZyLegenD%2FFreshAdapter&text=Check%20out%20this%20RecyclerView%20adapter%20generator%20library%20and%20don%27t%20write%20a%20single%20RecyclerView%20adapter%20anymore)
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
@@ -149,7 +149,7 @@ class PersonAdapter : ListAdapter<Person, PersonAdapter.ViewHolder>(object : and
         }
     }
 
-    interface forItemClickListener {
+    fun interface forItemClickListener {
         fun forItem(position: Int, item: Person, view: View)
     }
 }
@@ -167,18 +167,10 @@ private val personAdapter by lazy {
       
         binding.recycler.adapter = personAdapter
         personAdapter.submitList(personList)
-
-
-        personAdapter.onItemViewClickListener = object : PersonAdapter.forItemClickListener {
-            override fun forItem(position: Int, item: Person, view: View) {
-                Log.d("CLICKED AT $position", "LONG ITEM VIEW CLICK")
-            }
-        }
-        personAdapter.surnameLongClickListener = object : PersonAdapter.forItemClickListener {
-            override fun forItem(position: Int, item: Person, view: View) {
-                Log.d("CLICKED AT $position", "LONG SURNAME CLICK")
-            }
-        }
+        
+        personAdapter.onItemViewClickListener = PersonAdapter.forItemClickListener { position, item, view -> Log.d("CLICKED AT $position", "LONG ITEM VIEW CLICK ${item.name} at view ${view.id}") }
+        
+        personAdapter.surnameLongClickListener = PersonAdapter.forItemClickListener { position, item, view -> Log.d("CLICKED AT $position", "LONG SURNAME VIEW CLICK ${item.surname} at view ${view.id}") }
     }
 ```
 
