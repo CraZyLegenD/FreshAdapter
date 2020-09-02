@@ -71,7 +71,8 @@ Annotate your pojo class model with @ViewBindingAdapter
 @ViewBindingAdapter(
     viewBinding = ItemviewPersonBinding::class, //sets the binding that's gonna be a constructor for the view holder
     attachItemViewClickListener = true, //whether to generate click listener on itemView click
-    attachItemViewLongClickListener = true //same as itemViewClick listener but long click
+    attachItemViewLongClickListener = true //same as itemViewClick listener but long click,
+    generateViewBindingStaticNames = true ///creates static object for your view binding so that you shouldn't paste the names around
 )
 data class Person
 ```
@@ -85,11 +86,11 @@ data class Person
 data class Person(
 
     /*sets the variable as a text to a TextView binding.title.text = name*/
-    @BindText(viewName = "title") 
+    @BindText(viewName = ItemviewPersonBindingNames.title) 
     val name: String,
 
     /*Same as above but it generates long click listener for binding.content*/
-    @BindText(viewName = "content", clickListenerType = ClickListenerType.LONG_CLICK)
+    @BindText(viewName = ItemviewPersonBindingNames.content, clickListenerType = ClickListenerType.LONG_CLICK)
     val surname: String
 )
 ```
