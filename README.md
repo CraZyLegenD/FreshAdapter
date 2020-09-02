@@ -86,11 +86,11 @@ data class Person
 data class Person(
 
     /*sets the variable as a text to a TextView binding.title.text = name*/
-    @BindText(viewName = ItemviewPersonBindingNames.title) 
+    @BindText(viewName = "title") 
     val name: String,
 
     /*Same as above but it generates long click listener for binding.content*/
-    @BindText(viewName = ItemviewPersonBindingNames.content, clickListenerType = ClickListenerType.LONG_CLICK)
+    @BindText(viewName = "content", clickListenerType = ClickListenerType.LONG_CLICK)
     val surname: String
 )
 ```
