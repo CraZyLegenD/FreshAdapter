@@ -84,14 +84,7 @@ class AdapterProcessor : AbstractProcessor() {
 
 
         if (annotation.generateViewBindingStaticNames){
-            val writeableDirectory = generatedDirectory ?: return null
-            val viewBindingFields = viewBindingPackageElement.enclosedElements.filter { it.kind == ElementKind.FIELD }
-            val viewBindingFileName = "${viewBindingPackageElement.simpleName}Names"
-            FileSpec.builder(packageName, viewBindingFileName)
-                    .addType(ViewHolderNamesBuilder(
-                            viewBindingFields.map { it.simpleName.toString() }, viewBindingFileName).build())
-                    .build()
-                    .writeTo(File(writeableDirectory))
+            generateViewBindingStaticNames(viewBindingPackageElement, packageName)
         }
 
 
@@ -123,6 +116,17 @@ class AdapterProcessor : AbstractProcessor() {
                 colorBindingData, annotation.attachItemViewClickListener, annotation.attachItemViewLongClickListener)
     }
 
+    private fun generateViewBindingStaticNames(viewBindingPackageElement: Element?, packageName: String) {
+        val writeableDirectory = generatedDirectory ?: return
+        viewBindingPackageElement?:return
+        val viewBindingFields = viewBindingPackageElement.enclosedElements.filter { it.kind == ElementKind.FIELD }
+        val viewBindingFileName = "${viewBindingPackageElement.simpleName}Names"
+        FileSpec.builder(packageName, viewBindingFileName)
+                .addType(ViewHolderNamesBuilder(
+                        viewBindingFields.map { it.simpleName.toString() }, viewBindingFileName).build())
+                .build()
+                .writeTo(File(writeableDirectory))
+    }
 
 
     private fun constructCustomViewHolderPackageName(element: Element, packageName: String, pojoModelName: String, viewBindingPackage: String): String? {
