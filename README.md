@@ -1,4 +1,5 @@
 # Fresh adapter
+## It was fun learning annotation processing, however Jetpack Compose will make this repo obsolete as well as the KSP(kotlin symbol processor), that's why this repo will be archived and all the development is halted
 ### Recycler view adapter generator
 
 [![](https://jitpack.io/v/CraZyLegenD/FreshAdapter.svg)](https://jitpack.io/#CraZyLegenD/FreshAdapter)
